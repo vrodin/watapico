@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 set(PICO_FLASH_SIZE_BYTES 16777216)
 
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_BUILD_TYPE "MinSizeRel")
 
 include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
@@ -35,7 +36,7 @@ pico_set_float_implementation(${PROJECT_NAME} none) # size optimizations
 pico_set_double_implementation(${PROJECT_NAME} none) # size optimizations
 pico_set_printf_implementation(${PROJECT_NAME} none)
 
-target_sources(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/watapico.c)
+target_sources(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/watapico.cpp)
 
 target_link_libraries(${PROJECT_NAME}
         pico_runtime

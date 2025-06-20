@@ -10,17 +10,17 @@
 #include "./roms/roms.h"
 
 // Address Bus (A0 - A16)
-#define ADDR_MASK  0x1FFFF  // Bits 0-16
+constexpr uint32_t ADDR_MASK = 0x1FFFF;  // Bits 0-16
 
 // Data Bus (D0 - D7)
-#define DATA_MASK  (0xFF << 17)
+constexpr uint32_t DATA_MASK = (0xFF << 17);
 
 // /RD
-#define RD_PIN 29
-#define READ_MASK (1u << RD_PIN)
+constexpr uint8_t RD_PIN = 29;
+constexpr uint32_t READ_MASK = (1u << RD_PIN);
 
-#define PWR_ON_PIN 25
-#define PWR_ON_MASK (1u << PWR_ON_PIN)
+constexpr uint8_t PWR_ON_PIN = 25;
+constexpr uint32_t PWR_ON_MASK = (1u << PWR_ON_PIN);
 
 uint8_t __aligned(4) rom[65536];
 uint16_t ROM_MASK = 0xFFFF;
@@ -44,7 +44,7 @@ inline static uint8_t random_byte() {
     return (uint8_t) random;
 }
 
-void main() {
+int main() {
     // Set the system clock speed.
     hw_set_bits(&vreg_and_chip_reset_hw->vreg, VREG_AND_CHIP_RESET_VREG_VSEL_BITS);
     sleep_us(35);
@@ -59,7 +59,10 @@ void main() {
     ROM_MASK = rom_entry->mask;
 
     gpio_set_dir(PWR_ON_PIN, GPIO_OUT);
+    gpio_put(PWR_ON_PIN, 0);
+    sleep_us(5000);
     gpio_put(PWR_ON_PIN, 1);
 
     handle_bus();
+    return 0;
 }
